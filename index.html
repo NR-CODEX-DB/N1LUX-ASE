@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AES Key Generator</title>
+<style>
+body{
+    font-family: Arial;
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:40px;
+}
+.box{
+    background:#1e293b;
+    padding:30px;
+    border-radius:10px;
+    width:400px;
+    margin:auto;
+}
+input{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border-radius:6px;
+    border:none;
+}
+button{
+    padding:10px 20px;
+    margin-top:15px;
+    border:none;
+    border-radius:6px;
+    background:#22c55e;
+    color:white;
+    cursor:pointer;
+}
+button:hover{
+    background:#16a34a;
+}
+.copy{
+    background:#3b82f6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>🔐 AES Key & IV Generator</h2>
+
+<select id="keySize">
+<option value="16">AES-128</option>
+<option value="24">AES-192</option>
+<option value="32">AES-256</option>
+</select>
+
+<br><br>
+
+<button onclick="generate()">Generate</button>
+
+<h3>AES Key</h3>
+<input id="key" readonly>
+<button class="copy" onclick="copyText('key')">Copy</button>
+
+<h3>IV</h3>
+<input id="iv" readonly>
+<button class="copy" onclick="copyText('iv')">Copy</button>
+
+</div>
+
+<script>
+
+function randomHex(bytes){
+    let array = new Uint8Array(bytes);
+    crypto.getRandomValues(array);
+    return Array.from(array, b => ('00'+b.toString(16)).slice(-2)).join('');
+}
+
+function generate(){
+
+let size = parseInt(document.getElementById("keySize").value);
+
+let key = randomHex(size);
+let iv = randomHex(16);
+
+document.getElementById("key").value = key;
+document.getElementById("iv").value = iv;
+
+}
+
+function copyText(id){
+
+let text = document.getElementById(id);
+
+text.select();
+document.execCommand("copy");
+
+alert("Copied!");
+
+}
+
+</script>
+
+</body>
+</html>
